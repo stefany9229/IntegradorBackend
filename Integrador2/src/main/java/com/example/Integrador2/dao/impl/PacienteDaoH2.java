@@ -2,6 +2,7 @@ package com.example.Integrador2.dao.impl;
 
 
 
+import com.example.Integrador2.dao.ConfiguracionDB;
 import com.example.Integrador2.dao.IDao;
 import com.example.Integrador2.model.Domicilio;
 import com.example.Integrador2.model.Paciente;
@@ -13,26 +14,21 @@ import java.util.List;
 
 public class PacienteDaoH2 implements IDao<Paciente> {
 
-    private final static String DB_JDBC_DRIVER = "org.h2.Driver";
-    //con la instruccion INIT=RUNSCRIPT cuando se conecta a la base ejecuta el script de sql que esta en dicho archivo
-    private final static String DB_URL = "jdbc:h2:~/db_clinica;INIT=RUNSCRIPT FROM 'create.sql'";
-    private final static String DB_USER ="sa";
-    private final static String DB_PASSWORD = "sa";
+
 
     private DomicilioDaoH2 domicilioDaoH2 = new DomicilioDaoH2();
 
+    
 
 
     @Override
     public Paciente guardar(Paciente paciente) {
 
-        Connection connection = null;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            //1 Levantar el driver y Conectarnos
-            Class.forName(DB_JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
 
 
             //Como primer paso primero debemos guardar el domicilio del paciente
@@ -43,7 +39,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             //paciente.getDomicilio().setId(domicilio.getId());
 
             //2 Crear una sentencia especificando que el ID lo auto incrementa la base de datos y que nos devuelva esa Key es decir ID
-            preparedStatement = connection.prepareStatement("INSERT INTO pacientes(nombre,apellido,dni,fecha_ingreso,domicilio_id) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = ConfiguracionDB.connection().prepareStatement("INSERT INTO pacientes(nombre,apellido,dni,fecha_ingreso,domicilio_id) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             //No le vamos a pasar el ID ya que hicimos que fuera autoincremental en la base de datos
             //preparedStatement.setInt(1,paciente.getId());
             preparedStatement.setString(1, paciente.getNombre());
@@ -63,7 +59,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
             preparedStatement.close();
 
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return paciente;
@@ -71,21 +67,18 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
     @Override
     public void eliminar(Integer id) {
-        Connection connection = null;
+
         PreparedStatement preparedStatement = null;
         try {
-            //1 Levantar el driver y Conectarnos
-            Class.forName(DB_JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             //2 Crear una sentencia
-            preparedStatement = connection.prepareStatement("DELETE FROM pacientes where id = ?");
+            preparedStatement = ConfiguracionDB.connection().prepareStatement("DELETE FROM pacientes where id = ?");
             preparedStatement.setInt(1,id);
 
             //3 Ejecutar una sentencia SQL
             preparedStatement.executeUpdate();
             preparedStatement.close();
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -94,16 +87,14 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
     @Override
     public Paciente buscar(Integer id) {
-        Connection connection = null;
+
         PreparedStatement preparedStatement = null;
         Paciente paciente = null;
         try {
-            //1 Levantar el driver y Conectarnos
-            Class.forName(DB_JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
 
             //2 Crear una sentencia
-            preparedStatement = connection.prepareStatement("SELECT id,nombre,apellido,dni,fecha_ingreso,domicilio_id  FROM pacientes where id = ?");
+            preparedStatement =  ConfiguracionDB.connection().prepareStatement("SELECT id,nombre,apellido,dni,fecha_ingreso,domicilio_id  FROM pacientes where id = ?");
             preparedStatement.setInt(1,id);
 
             //3 Ejecutar una sentencia SQL
@@ -123,7 +114,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             }
 
             preparedStatement.close();
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -132,16 +123,14 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
     @Override
     public List<Paciente> buscarTodos() {
-        Connection connection = null;
+
         PreparedStatement preparedStatement = null;
         List<Paciente> pacientes = new ArrayList<>();
         try {
-            //1 Levantar el driver y Conectarnos
-            Class.forName(DB_JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
 
             //2 Crear una sentencia
-            preparedStatement = connection.prepareStatement("SELECT *  FROM pacientes");
+            preparedStatement = ConfiguracionDB.connection().prepareStatement("SELECT *  FROM pacientes");
 
             //3 Ejecutar una sentencia SQL
             ResultSet result = preparedStatement.executeQuery();
@@ -162,7 +151,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             }
 
             preparedStatement.close();
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
@@ -172,20 +161,18 @@ public class PacienteDaoH2 implements IDao<Paciente> {
     @Override
     public Paciente actualizar(Paciente paciente) {
 
-        Connection connection = null;
+
         PreparedStatement preparedStatement = null;
 
         try {
             //1 Levantar el driver y Conectarnos
-            Class.forName(DB_JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
 
             //Como primer paso actualizamos el domicilio del paciente
             Domicilio domicilio = domicilioDaoH2.actualizar(paciente.getDomicilio());
 
             //2 Crear una sentencia especificando que el ID lo auto incrementa la base de datos y que nos devuelva esa Key es decir ID
-            preparedStatement = connection.prepareStatement("UPDATE pacientes SET nombre=?, apellido=?, dni=?, fecha_ingreso=?, domicilio_id=?  WHERE id = ?");
+            preparedStatement =  ConfiguracionDB.connection().prepareStatement("UPDATE pacientes SET nombre=?, apellido=?, dni=?, fecha_ingreso=?, domicilio_id=?  WHERE id = ?");
             //No le vamos a pasar el ID ya que hicimos que fuera autoincremental en la base de datos
             //preparedStatement.setInt(1,paciente.getId());
             preparedStatement.setString(1, paciente.getNombre());
@@ -202,8 +189,9 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
 
             preparedStatement.close();
+            ConfiguracionDB.connection().close();
 
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return paciente;

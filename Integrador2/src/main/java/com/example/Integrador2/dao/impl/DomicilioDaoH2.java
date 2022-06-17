@@ -11,10 +11,6 @@ import java.util.List;
 
 public class DomicilioDaoH2 implements IDao<Domicilio> {
 
-    ConfiguracionDB ConfiguracionBD= new ConfiguracionDB();
-
-
-
 
 
     @Override
@@ -25,7 +21,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
             try {
 
                 //2 Crear una sentencia especificando que el ID lo auto incrementa la base de datos y que nos devuelva esa Key es decir ID
-                preparedStatement = ConfiguracionBD.connection().prepareStatement("INSERT INTO domicilios(calle,numero,localidad,provincia) VALUES(?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+                preparedStatement = ConfiguracionDB.connection().prepareStatement("INSERT INTO domicilios(calle,numero,localidad,provincia) VALUES(?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
                 //No le vamos a pasar el ID ya que hicimos que fuera autoincremental en la base de datos
                 //preparedStatement.setInt(1,domicilio.getId());
                 preparedStatement.setString(1, domicilio.getCalle());
@@ -56,7 +52,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
         ;
 
             //2 Crear una sentencia
-            preparedStatement =ConfiguracionBD.connection().prepareStatement("DELETE FROM domicilios where id = ?");
+            preparedStatement =ConfiguracionDB.connection().prepareStatement("DELETE FROM domicilios where id = ?");
             preparedStatement.setInt(1,id);
 
             //3 Ejecutar una sentencia SQL
@@ -77,7 +73,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
         try {
 
             //2 Crear una sentencia
-            preparedStatement = ConfiguracionBD.connection().prepareStatement("SELECT id,calle,numero,localidad,provincia FROM domicilios where id = ?");
+            preparedStatement = ConfiguracionDB.connection().prepareStatement("SELECT id,calle,numero,localidad,provincia FROM domicilios where id = ?");
             preparedStatement.setInt(1,id);
 
             //3 Ejecutar una sentencia SQL
@@ -111,7 +107,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
 
 
             //2 Crear una sentencia
-            preparedStatement = ConfiguracionBD.connection().prepareStatement("SELECT *  FROM domicilios");
+            preparedStatement = ConfiguracionDB.connection().prepareStatement("SELECT *  FROM domicilios");
 
             //3 Ejecutar una sentencia SQL
             ResultSet result = preparedStatement.executeQuery();
@@ -147,7 +143,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
         try {
 
 
-             preparedStatement = ConfiguracionBD.connection().prepareStatement("UPDATE domicilios SET calle = ?, numero = ? ,localidad = ?, provincia = ?  WHERE id = ?");
+             preparedStatement = ConfiguracionDB.connection().prepareStatement("UPDATE domicilios SET calle = ?, numero = ? ,localidad = ?, provincia = ?  WHERE id = ?");
             //No le vamos a pasar el ID ya que hicimos que fuera autoincremental en la base de datos
             //preparedStatement.setInt(1,domicilio.getId());
             preparedStatement.setString(1, domicilio.getCalle());
