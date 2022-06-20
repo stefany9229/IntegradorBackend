@@ -13,9 +13,11 @@ public class mainFalso {
     public static void main(String[] args) throws SQLException {
         OdontologoService odontolgoService= new OdontologoService(new OdontologoDaoH2());
 
-        Odontologo odontologo= new Odontologo(1234,"Carlos","Baez");
+       /* Odontologo odontologo= new Odontologo(1234,"Carlos","Baez");
         odontolgoService.guardar(odontologo);
-        odontolgoService.buscar(1234);
+        odontolgoService.buscar(1234);*/
+
+        System.out.println(odontolgoService.buscar(5));
 
 
 

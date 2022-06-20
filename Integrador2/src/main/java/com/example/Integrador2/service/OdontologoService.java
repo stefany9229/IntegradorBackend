@@ -20,7 +20,7 @@ public class OdontologoService {
         return odontologoDAO.guardar(odontologo);
     }
 
-    public Odontologo buscar(Integer matricula) {return odontologoDAO.buscar(matricula);  }
+    public Odontologo buscar(Integer id) {return odontologoDAO.buscar(id);  }
 
     public List<Odontologo> buscarTodos() {
         return odontologoDAO.buscarTodos();

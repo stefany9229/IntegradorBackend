@@ -1,5 +1,7 @@
 package com.example.Integrador2.model;
 
+import java.util.Objects;
+
 public class Odontologo {
 
     private Integer matricula;
@@ -32,6 +34,19 @@ public class Odontologo {
                 ", apellido='" + apellido + '\'' +
                 ", id=" + id +
                 '}';
+    }
+    // se establece el método equals para poder hacer los test
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Odontologo that = (Odontologo) o;
+        return Objects.equals(matricula, that.matricula) && Objects.equals(nombre, that.nombre) && Objects.equals(apellido, that.apellido) && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(matricula, nombre, apellido, id);
     }
 
     public String getNombre() {

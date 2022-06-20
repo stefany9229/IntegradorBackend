@@ -8,14 +8,13 @@ public class ConfiguracionDB {
 
 
 
-
     public ConfiguracionDB() {
     }
 
     public static Connection connection(){
 
         String DB_JDBC_DRIVER = "org.h2.Driver";
-        String DB_URL = "jdbc:h2:~/db_clinica1;INIT=RUNSCRIPT FROM 'create.sql'";
+        String DB_URL = "jdbc:h2:~/db_clinica;INIT=RUNSCRIPT FROM 'create.sql'";
         String DB_USER ="sa";
         String DB_PASSWORD = "sa";
 
