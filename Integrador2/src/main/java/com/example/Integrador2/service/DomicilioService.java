@@ -2,7 +2,7 @@ package com.example.Integrador2.service;
 
 
 
-import com.example.Integrador2.dao.IDao;
+import com.example.Integrador2.repository.IDao;
 import com.example.Integrador2.model.Domicilio;
 
 import java.util.List;

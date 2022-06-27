@@ -1,13 +1,28 @@
 package com.example.Integrador2.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+
+
+@Entity
+@Table(name = "odontologos")
 public class Odontologo {
 
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "odontologo_secuencia")
+    private Integer id;
     private Integer matricula;
     private String nombre;
     private String apellido;
-    private Integer id;
+
+
+
+
+    public Odontologo() {
+    }
 
     public Odontologo(Integer matricula, String nombre, String apellido) {
         this.matricula = matricula;
@@ -15,7 +30,9 @@ public class Odontologo {
         this.apellido = apellido;
     }
 
-    public Odontologo(int id,Integer numeroMatricula, String nombre, String apellido) {
+
+
+    public Odontologo(int id, Integer numeroMatricula, String nombre, String apellido) {
         this.matricula = numeroMatricula;
         this.nombre = nombre;
         this.apellido = apellido;

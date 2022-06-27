@@ -3,9 +3,9 @@ package com.example.Integrador2.controller;
 
 
 
-import com.example.Integrador2.dao.impl.PacienteDaoH2;
 import com.example.Integrador2.model.Paciente;
 import com.example.Integrador2.service.PacienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,8 @@ import java.util.List;
 @RequestMapping("/pacientes")
 public class PacienteController {
 
-    private PacienteService pacienteService= new PacienteService(new PacienteDaoH2());
+    @Autowired
+    private PacienteService pacienteService;
 
 
     @GetMapping

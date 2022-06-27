@@ -1,4 +1,4 @@
-package com.example.Integrador2.dao;
+package com.example.Integrador2.repository;
 
 import java.util.List;
 

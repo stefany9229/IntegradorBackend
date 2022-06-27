@@ -1,6 +1,13 @@
 package com.example.Integrador2.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "domicilios")
 public class Domicilio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paciente_secuencia")
     private Integer id;
     private String calle;
     private String numero;
